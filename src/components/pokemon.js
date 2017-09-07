@@ -8,6 +8,12 @@ class Pokemon {
     return POKEMONS;
   }
 
+  static create(object) {
+    const pokemon = new Pokemon(object.name, {front: object.sprites.front_default, back: object.sprites.back_default});
+    pokemon.id = object.id;
+    return pokemon;
+  }
+
   static search (term) {
     if (term.length === 0) {
       return [];

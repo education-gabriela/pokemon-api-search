@@ -19,6 +19,10 @@ class PokemonApi {
   }
 
   fetchPokemonByName (name, next = "/pokemon") {
+    if (!next) {
+      return;
+    }
+
     this.adapter.sendRequest(next, function (event) {
       this.findPokemonByName.call(this, event, name);
     }.bind(this));
@@ -26,15 +30,19 @@ class PokemonApi {
 
   findPokemonByName (event, name) {
     const result = Storage.jsonDecode(event.target.responseText);
-    const pokemons = result.results;
-    const findResult = pokemons.find(pokemon => {
+    const pokemonsResult = result.results;
+    const findResult = pokemonsResult.filter(pokemon => {
       return pokemon.name === name;
     });
 
-    if (findResult) {
-      this.fetchPokemon(null, findResult.url, function(pokemon) {
-        console.log(pokemon)
+    if (findResult.length != 0) {
+      return findResult.map(pokemon => {
+        this.fetchPokemon(null, pokemon.url, function(pokemon) {
+          return pokemon;
+        });
       });
+    } else {
+      this.fetchPokemonByName(name, result.next);
     }
   }
 }

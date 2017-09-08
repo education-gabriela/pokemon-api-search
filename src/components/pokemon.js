@@ -8,7 +8,7 @@ class Pokemon {
     return POKEMONS;
   }
 
-  static create(object) {
+  static create (object) {
     const pokemon = new Pokemon(object.name, {front: object.sprites.front_default, back: object.sprites.back_default});
     pokemon.id = object.id;
     return pokemon;

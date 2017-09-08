@@ -1,15 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
   const searchInput = document.getElementById("pokemon-seach-input");
+  const form = document.querySelector("form");
   const pokemonContainer = document.getElementById("pokemon-container");
 
-  searchInput.addEventListener("keyup", function (event) {
-    const searchResult = Pokemon.search(this.value);
-    const lister = new PokemonLister(searchResult, pokemonContainer);
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    let adapter = new ApiAdapter();
+    let api = new PokemonApi(adapter);
+    const lister = new PokemonLister([], pokemonContainer);
     lister.render();
-  });
 
+    let result = api.fetchPokemonByName(searchInput.value, pokemon => {
+      lister.addPokemon(pokemon);
+    });
+
+  });
   pokemonContainer.addEventListener("click", function (event) {
-    const pokemonName = event.target.dataset.pokename
+    const pokemonName = event.target.dataset.pokename;
     if (pokemonName) {
       const pokemon = Pokemon.findByName(pokemonName);
       const pokemonRenderer = new PokemonRenderer(pokemon);

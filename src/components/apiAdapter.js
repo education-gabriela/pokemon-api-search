@@ -3,7 +3,7 @@ class ApiAdapter {
     this.url = "http://pokeapi.co/api/v2";
   }
 
-  sendRequest(uri, callback) {
+  sendRequest (uri, callback) {
     const request = new XMLHttpRequest();
     let requestUrl;
 

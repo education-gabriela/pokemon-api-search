@@ -7,6 +7,17 @@ class PokemonLister {
     this.list.setAttribute("id", "pokemon-list");
   }
 
+  clear () {
+    this.target.innerHTML = "";
+    this.list.innerHTML = "";
+  }
+
+  addPokemon (pokemon) {
+    this.pokemons.push(pokemon);
+    this.clear();
+    this.render();
+  }
+
   render () {
     this.pokemons.forEach(pokemon => {
       const pokemonBuilder = new PokemonRenderer(pokemon);
